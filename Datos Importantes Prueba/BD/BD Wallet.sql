@@ -26,3 +26,19 @@ CREATE TABLE Movements (
 
 ------------------------------------------------------------
 CREATE INDEX IX_Movements_WalletId ON Movements(WalletId);
+
+
+/********************************************************************************************************************************************/
+
+SELECT *
+  FROM [WalletDb].[dbo].[Wallets]
+
+
+  SELECT *
+  FROM [WalletDb].[dbo].[Movements]
+
+
+--INSERT INTO Wallets (DocumentId, Name, Balance, CreatedAt, UpdatedAt)
+--VALUES 
+--('123456789', 'Daniel Avila', 1000.00, GETUTCDATE(), GETUTCDATE()),
+--('987654321', 'Yireth Calix', 500.00, GETUTCDATE(), GETUTCDATE());
