@@ -10,6 +10,7 @@ namespace WalletApp.Application.Services
     using Microsoft.EntityFrameworkCore;
     using WalletApp.Application.Interfaces;
     using WalletApp.Domain.Entities;
+    using WalletApp.Domain.Entities.DTOs;
 
     public class WalletService : IWalletService
     {
@@ -27,37 +28,36 @@ namespace WalletApp.Application.Services
             return wallet;
         }
 
-        public async Task TransferAsync(int fromWalletId, int toWalletId, decimal amount)
+        public async Task TransferAsync(TransferDto transfer)
         {
-            if (amount <= 0)
+            if (transfer.amount <= 0)
                 throw new ArgumentException("El monto debe ser mayor a cero.");
 
-            var fromWallet = await _context.Wallets.FindAsync(fromWalletId);
-            var toWallet = await _context.Wallets.FindAsync(toWalletId);
+            var fromWallet = await _context.Wallets.FindAsync(transfer.fromId);
+            var toWallet = await _context.Wallets.FindAsync(transfer.toId);
 
             if (fromWallet == null || toWallet == null)
                 throw new ArgumentException("Una o ambas wallets no existen.");
 
-            if (fromWallet.Balance < amount)
+            if (fromWallet.Balance < transfer.amount)
                 throw new InvalidOperationException("Saldo insuficiente.");
 
-            fromWallet.Balance -= amount;
-            toWallet.Balance += amount;
+            fromWallet.Balance -= transfer.amount;
+            toWallet.Balance += transfer.amount;
 
             fromWallet.UpdatedAt = DateTime.UtcNow;
             toWallet.UpdatedAt = DateTime.UtcNow;
 
             _context.Movements.AddRange(
-                new Movement { WalletId = fromWalletId, Amount = amount, Type = "Debit" },
-                new Movement { WalletId = toWalletId, Amount = amount, Type = "Credit" });
+                new Movement { WalletId = transfer.fromId, Amount = transfer.amount, Type = "Debit" },
+                new Movement { WalletId = transfer.toId, Amount = transfer.amount, Type = "Credit" });
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Movement>> GetMovementsAsync(int walletId)
+        public async Task<List<Movement>> GetMovementsAsync()
         {
             return await _context.Movements
-                .Where(m => m.WalletId == walletId)
                 .OrderByDescending(m => m.CreatedAt)
                 .ToListAsync();
         }

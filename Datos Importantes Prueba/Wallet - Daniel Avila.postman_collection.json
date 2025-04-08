@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "5786e123-6903-41bf-a00a-7c68875c49bc",
+		"name": "Wallet - Daniel Avila",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1262353"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"admin\",\r\n  \"password\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7112/api/Auth/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7112",
+					"path": [
+						"api",
+						"Auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Wallet",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJleHAiOjE3NDQxMjY2NTUsImlzcyI6IldhbGxldEFwcC1Jc3N1ZXIiLCJhdWQiOiJXYWxsZXRBcHAtQXVkaWVuY2UifQ.gXXurD5otfXHrwskni7Su5zDRmj8qIvD_tzSJdTHHbE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"documentId\": \"193337645\",\r\n  \"name\": \"Raquel Maldonado\",\r\n  \"balance\": 9500,\r\n  \"createdAt\": \"2025-04-08T03:49:12.098Z\",\r\n  \"updatedAt\": \"2025-04-08T03:49:12.098Z\",\r\n  \"movements\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7112/api/Wallet/create_wallet",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7112",
+					"path": [
+						"api",
+						"Wallet",
+						"create_wallet"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Transferencia",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJleHAiOjE3NDQxMjk0NzMsImlzcyI6IldhbGxldEFwcC1Jc3N1ZXIiLCJhdWQiOiJXYWxsZXRBcHAtQXVkaWVuY2UifQ.LkfhRjBD4vsIvCqTJrkS0dUGJPIOcuy-hq5fHXRhPoE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"fromId\": 4,\r\n  \"toId\": 1,\r\n  \"amount\": 2500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7112/api/Wallet/transfer",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7112",
+					"path": [
+						"api",
+						"Wallet",
+						"transfer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Historial movimientos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7112/api/Wallet/movements",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7112",
+					"path": [
+						"api",
+						"Wallet",
+						"movements"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WalletApp.Application.Interfaces;
 using WalletApp.Domain.Entities;
+using WalletApp.Domain.Entities.DTOs;
 
 namespace WalletApp.API.Controllers
 {
@@ -15,24 +17,27 @@ namespace WalletApp.API.Controllers
             _walletService = walletService;
         }
 
-        [HttpPost]
+        [Authorize]
+        [HttpPost("create_wallet")]
         public async Task<IActionResult> CreateWallet([FromBody] Wallet wallet)
         {
             var result = await _walletService.CreateWalletAsync(wallet);
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("transfer")]
-        public async Task<IActionResult> Transfer(int fromId, int toId, decimal amount)
+        public async Task<IActionResult> Transfer([FromBody] TransferDto transfer)
         {
-            await _walletService.TransferAsync(fromId, toId, amount);
+            await _walletService.TransferAsync(transfer);
             return Ok("Transferencia realizada correctamente.");
         }
 
-        [HttpGet("{walletId}/movements")]
-        public async Task<IActionResult> GetMovements(int walletId)
+        [AllowAnonymous]
+        [HttpGet("movements")]
+        public async Task<IActionResult> GetMovements()
         {
-            var movements = await _walletService.GetMovementsAsync(walletId);
+            var movements = await _walletService.GetMovementsAsync();
             return Ok(movements);
         }
     }
